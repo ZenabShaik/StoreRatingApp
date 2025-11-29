@@ -4,6 +4,7 @@ const db = require("./db/database");
 require("dotenv").config();
 
 const app = express();
+// verified push test
 
 // Middleware
 app.use(cors());
