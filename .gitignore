@@ -1,0 +1,5 @@
+# Development credentials - DO NOT COMMIT
+DEV-CREDENTIALS.txt
+test-users.txt
+dev-credentials.md
+*.credentials
