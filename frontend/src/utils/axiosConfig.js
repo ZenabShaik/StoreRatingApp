@@ -13,4 +13,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+//https://storeratingapp-s4yi.onrender.com/api
+//http://localhost:5000/api
+
 export default api;
