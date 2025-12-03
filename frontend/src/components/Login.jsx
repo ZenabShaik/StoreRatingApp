@@ -1,4 +1,4 @@
-// src/components/Login.jsx
+// ========================= Login.jsx (WORLD-CLASS SHOWSTOPPER EDITION) =========================
 import { useContext, useState } from "react";
 import api from "../utils/axiosConfig";
 import { AuthContext } from "../context/AuthContext";
@@ -19,10 +19,8 @@ export default function Login() {
     try {
       const res = await api.post("/auth/login", { email, password });
 
-      // save token + role + email
       login(res.data.token, res.data.role, res.data.email);
 
-      // redirect by role
       if (res.data.role === "admin") navigate("/dashboard");
       else if (res.data.role === "owner") navigate("/my-store");
       else navigate("/stores");
@@ -33,41 +31,50 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
-      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center mb-2 text-blue-700">
-          Login
-        </h1>
-        <p className="text-center text-gray-500 mb-6 text-sm">
-          Sign in to continue to StoreRating.
-        </p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-surface px-4">
+      <div className="w-full max-w-md bg-glass glass rounded-2xl shadow-glow p-10 card animate-fadeIn">
 
+        {/* BRAND HEADER */}
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-black text-dark tracking-tight">
+            Store<span className="text-primary">Rating</span>
+          </h1>
+          <p className="text-sm text-secondary mt-2">
+            Premium Store Experience Platform
+          </p>
+        </div>
+
+        {/* ERROR */}
         {error && (
-          <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 px-3 py-2 rounded">
+          <div className="mb-5 text-sm text-danger bg-rose-50 border border-rose-200 px-4 py-3 rounded-xl text-center">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        {/* FORM */}
+        <form onSubmit={handleLogin} className="space-y-6">
+
+          {/* EMAIL */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email
+            <label className="block text-sm font-semibold text-dark mb-1">
+              Email Address
             </label>
             <input
-              className="w-full px-3 py-2 border rounded-md text-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition"
               type="email"
-              placeholder="you@example.com"
+              placeholder="you@company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
+          {/* PASSWORD */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-dark mb-1">
               Password
             </label>
             <input
-              className="w-full px-3 py-2 border rounded-md text-sm border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-primary transition"
               type="password"
               placeholder="Enter your password"
               value={password}
@@ -75,20 +82,25 @@ export default function Login() {
             />
           </div>
 
+          {/* CTA */}
           <button
-            className="w-full bg-blue-600 text-white font-medium py-2.5 rounded-md text-sm hover:bg-blue-700"
+            className="w-full bg-primary glow-btn text-white py-3 rounded-xl font-bold tracking-wide hover:scale-105 transition-all"
             type="submit"
           >
-            Login
+            Enter Platform
           </button>
         </form>
 
-        <p className="mt-4 text-center text-sm text-gray-600">
+        {/* FOOTER */}
+        <div className="mt-8 text-center text-sm text-secondary">
           Don&apos;t have an account?{" "}
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Register here
+          <Link
+            to="/register"
+            className="text-primary font-bold hover:underline"
+          >
+            Create one
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );

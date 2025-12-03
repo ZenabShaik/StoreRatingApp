@@ -1,10 +1,11 @@
-// src/components/ChangePassword.jsx
+// ========================= ChangePassword.jsx (WORLD-CLASS EDITION) =========================
 import React, { useState } from "react";
 import api from "../utils/axiosConfig";
 import { useAuth } from "../context/AuthContext";
 
 export default function ChangePassword() {
-  const { role } = useAuth(); // not strictly needed, but nice for UI
+  const { role } = useAuth();
+
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNew, setConfirmNew] = useState("");
@@ -37,7 +38,7 @@ export default function ChangePassword() {
 
     if (!validatePassword(newPassword)) {
       setError(
-        "New password must be 8–16 chars, include at least one uppercase letter and one special character."
+        "Password must be 8–16 characters, include at least one uppercase letter and one special character."
       );
       return;
     }
@@ -65,66 +66,68 @@ export default function ChangePassword() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
-      <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-6">
-        <h1 className="text-2xl font-bold text-center mb-1">
-          Change Password
-        </h1>
-        {role && (
-          <p className="text-center text-sm text-gray-500 mb-4 uppercase">
-            Role: {role}
+    <div className="min-h-screen bg-surface flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-md bg-glass glass rounded-2xl shadow-glow p-10 card animate-fadeIn">
+        <div className="text-center mb-6">
+          <p className="text-xs uppercase tracking-widest text-secondary font-semibold mb-1">
+            Security Center
           </p>
-        )}
+          <h1 className="text-3xl font-black text-dark">
+            Change Password
+          </h1>
+          {role && (
+            <p className="mt-1 text-xs text-secondary">
+              Role: <span className="font-semibold">{role}</span>
+            </p>
+          )}
+        </div>
 
         {error && (
-          <div className="mb-3 text-sm text-red-600 bg-red-50 border border-red-200 px-3 py-2 rounded">
+          <div className="mb-3 text-sm text-danger bg-rose-50 border border-rose-200 px-4 py-3 rounded-xl">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-3 text-sm text-green-700 bg-green-50 border border-green-200 px-3 py-2 rounded">
+          <div className="mb-3 text-sm text-success bg-emerald-50 border border-emerald-200 px-4 py-3 rounded-xl">
             {success}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Current Password */}
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className="block text-sm font-semibold text-dark mb-1">
               Current Password
             </label>
             <input
               type="password"
-              className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              placeholder="Enter your current password"
+              placeholder="Enter current password"
             />
           </div>
 
-          {/* New Password */}
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className="block text-sm font-semibold text-dark mb-1">
               New Password
             </label>
             <input
               type="password"
-              className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="8–16 chars, 1 uppercase, 1 special"
             />
           </div>
 
-          {/* Confirm New Password */}
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className="block text-sm font-semibold text-dark mb-1">
               Confirm New Password
             </label>
             <input
               type="password"
-              className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
               value={confirmNew}
               onChange={(e) => setConfirmNew(e.target.value)}
               placeholder="Re-enter new password"
@@ -134,13 +137,13 @@ export default function ChangePassword() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg mt-2 hover:bg-blue-700 disabled:opacity-60"
+            className="w-full bg-primary glow-btn text-white py-3 rounded-xl font-bold hover:scale-105 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? "Updating..." : "Update Password"}
           </button>
         </form>
 
-        <p className="mt-4 text-xs text-gray-500">
+        <p className="mt-4 text-xs text-secondary text-center">
           Password must be 8–16 characters and include at least one uppercase
           letter and one special character.
         </p>
@@ -148,3 +151,4 @@ export default function ChangePassword() {
     </div>
   );
 }
+

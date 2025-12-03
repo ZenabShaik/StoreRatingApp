@@ -1,3 +1,4 @@
+// ========================= AdminStores.jsx (WORLD-CLASS EDITION) =========================
 import React, { useEffect, useState } from "react";
 import axios from "../utils/axiosConfig";
 
@@ -41,7 +42,6 @@ export default function AdminStores() {
     }
   };
 
-  // ✅ Sorting (All Columns)
   const sortData = (column) => {
     const order =
       column === sortColumn && sortOrder === "asc" ? "desc" : "asc";
@@ -58,14 +58,12 @@ export default function AdminStores() {
     setStores(sorted);
   };
 
-  // ✅ Search Filter
   const filteredStores = stores.filter((s) =>
     (s.name + s.store_email + s.owner_email + s.address)
       .toLowerCase()
       .includes(search.toLowerCase())
   );
 
-  // ✅ Add Store (Fully Document Compliant)
   const handleAddStore = async () => {
     if (!newStore.name || !newStore.storeEmail || !newStore.ownerId) {
       alert("Store Name, Store Email & Owner are required");
@@ -96,68 +94,92 @@ export default function AdminStores() {
   };
 
   return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">All Stores</h1>
-        <button
-          onClick={() => setShowModal(true)}
-          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
-        >
-          + Add Store
-        </button>
+    <div className="min-h-screen bg-surface p-8">
+      <div className="max-w-7xl mx-auto bg-glass glass rounded-2xl shadow-soft p-8 card">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-secondary font-semibold">
+              Admin
+            </p>
+            <h1 className="text-2xl md:text-3xl font-black text-dark">
+              Store Management
+            </h1>
+          </div>
+          <button
+            onClick={() => setShowModal(true)}
+            className="bg-success glow-btn text-white px-5 py-2.5 rounded-xl font-semibold hover:scale-105 transition-all"
+          >
+            + Add Store
+          </button>
+        </div>
+
+        {/* Search */}
+        <div className="mb-5">
+          <input
+            type="text"
+            placeholder="Search stores by name, email, address..."
+            className="w-full px-4 py-3 border border-slate-300 rounded-xl bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
+        {/* Table */}
+        <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-surface">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-slate-100">
+              <tr>
+                {["id", "name", "store_email", "address", "average_rating"].map(
+                  (col) => (
+                    <th
+                      key={col}
+                      className="px-4 py-3 cursor-pointer select-none font-semibold text-dark"
+                      onClick={() => sortData(col)}
+                    >
+                      {col.replace("_", " ").toUpperCase()}
+                      {sortColumn === col &&
+                        (sortOrder === "asc" ? " ▲" : " ▼")}
+                    </th>
+                  )
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              {filteredStores.map((s) => (
+                <tr
+                  key={s.id}
+                  className="border-t border-slate-100 hover:bg-slate-50"
+                >
+                  <td className="px-4 py-3">{s.id}</td>
+                  <td className="px-4 py-3 font-semibold text-dark">
+                    {s.name}
+                  </td>
+                  <td className="px-4 py-3">{s.store_email}</td>
+                  <td className="px-4 py-3">{s.address}</td>
+                  <td className="px-4 py-3 font-bold text-accent">
+                    {s.average_rating !== null &&
+                    s.average_rating !== undefined
+                      ? `⭐ ${s.average_rating}`
+                      : "No ratings"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* Search */}
-      <input
-        type="text"
-        placeholder="Search stores..."
-        className="border p-2 rounded w-full mb-4"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-
-      {/* ✅ Table Now Matches Document Exactly */}
-      <table className="w-full border text-sm">
-        <thead>
-          <tr className="bg-gray-200">
-            {["id", "name", "store_email", "address", "average_rating"].map(
-              (col) => (
-                <th
-                  key={col}
-                  className="border p-2 cursor-pointer select-none"
-                  onClick={() => sortData(col)}
-                >
-                  {col.replace("_", " ").toUpperCase()}
-                  {sortColumn === col &&
-                    (sortOrder === "asc" ? " ▲" : " ▼")}
-                </th>
-              )
-            )}
-          </tr>
-        </thead>
-
-        <tbody>
-          {filteredStores.map((s) => (
-            <tr key={s.id}>
-              <td className="border p-2">{s.id}</td>
-              <td className="border p-2">{s.name}</td>
-              <td className="border p-2">{s.store_email}</td>
-              <td className="border p-2">{s.address}</td>
-              <td className="border p-2">{s.average_rating}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* ✅ Add Store Modal */}
+      {/* Add Store Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center">
-          <div className="bg-white w-96 p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold mb-4">Add New Store</h2>
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
+          <div className="bg-glass glass w-full max-w-md rounded-2xl shadow-glow p-6 animate-fadeIn">
+            <h2 className="text-xl font-black text-dark mb-4">
+              Add New Store
+            </h2>
 
             <input
-              className="w-full border p-2 mb-2 rounded"
+              className="w-full border border-slate-300 rounded-xl px-3 py-2 mb-3 bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder="Store Name"
               value={newStore.name}
               onChange={(e) =>
@@ -167,7 +189,7 @@ export default function AdminStores() {
 
             <input
               type="email"
-              className="w-full border p-2 mb-2 rounded"
+              className="w-full border border-slate-300 rounded-xl px-3 py-2 mb-3 bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder="Store Email"
               value={newStore.storeEmail}
               onChange={(e) =>
@@ -176,7 +198,7 @@ export default function AdminStores() {
             />
 
             <input
-              className="w-full border p-2 mb-2 rounded"
+              className="w-full border border-slate-300 rounded-xl px-3 py-2 mb-3 bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder="Store Address"
               value={newStore.address}
               onChange={(e) =>
@@ -185,7 +207,7 @@ export default function AdminStores() {
             />
 
             <select
-              className="w-full border p-2 rounded mb-3"
+              className="w-full border border-slate-300 rounded-xl px-3 py-2 mb-4 bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
               value={newStore.ownerId}
               onChange={(e) =>
                 setNewStore({ ...newStore, ownerId: e.target.value })
@@ -199,19 +221,20 @@ export default function AdminStores() {
               ))}
             </select>
 
-            <button
-              onClick={handleAddStore}
-              className="bg-green-600 text-white w-full py-2 rounded mb-2"
-            >
-              Add Store
-            </button>
-
-            <button
-              onClick={() => setShowModal(false)}
-              className="w-full py-2 border rounded"
-            >
-              Cancel
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={handleAddStore}
+                className="flex-1 bg-success text-white py-2.5 rounded-xl font-semibold hover:scale-105 transition-all"
+              >
+                Add Store
+              </button>
+              <button
+                onClick={() => setShowModal(false)}
+                className="flex-1 border border-slate-300 py-2.5 rounded-xl font-semibold bg-surface"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}

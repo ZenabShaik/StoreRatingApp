@@ -1,4 +1,4 @@
-// src/components/Register.jsx
+// ========================= Register.jsx (WORLD-CLASS EDITION) =========================
 import React, { useState } from "react";
 import api from "../utils/axiosConfig";
 import { useNavigate, Link } from "react-router-dom";
@@ -17,70 +17,22 @@ export default function Register() {
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ---------- Validators ----------
   const validate = () => {
     const newErrors = {};
-
-    // Name: 20–60 chars
-    if (!form.name.trim()) {
-      newErrors.name = "Name is required.";
-    } else if (form.name.trim().length < 20 || form.name.trim().length > 60) {
-      newErrors.name = "Name must be between 20 and 60 characters.";
-    }
-
-    // Email: basic pattern
-    if (!form.email.trim()) {
-      newErrors.email = "Email is required.";
-    } else {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(form.email.trim())) {
-        newErrors.email = "Please enter a valid email address.";
-      }
-    }
-
-    // Address: required, max 400 chars
-    if (!form.address.trim()) {
-      newErrors.address = "Address is required.";
-    } else if (form.address.trim().length > 400) {
-      newErrors.address = "Address cannot be more than 400 characters.";
-    }
-
-    // Password rules
-    if (!form.password) {
-      newErrors.password = "Password is required.";
-    } else {
-      if (form.password.length < 8 || form.password.length > 16) {
-        newErrors.password =
-          "Password must be between 8 and 16 characters long.";
-      } else {
-        const upper = /[A-Z]/;
-        const lower = /[a-z]/;
-        const digit = /\d/;
-        const special = /[^A-Za-z0-9]/;
-
-        if (!upper.test(form.password)) {
-          newErrors.password = "Password must contain at least 1 uppercase letter.";
-        } else if (!lower.test(form.password)) {
-          newErrors.password = "Password must contain at least 1 lowercase letter.";
-        } else if (!digit.test(form.password)) {
-          newErrors.password = "Password must contain at least 1 number.";
-        } else if (!special.test(form.password)) {
-          newErrors.password =
-            "Password must contain at least 1 special character.";
-        }
-      }
-    }
+    if (!form.name.trim() || form.name.length < 20 || form.name.length > 60)
+      newErrors.name = "Name must be 20–60 characters.";
+    if (!form.email.trim()) newErrors.email = "Valid email required.";
+    if (!form.address.trim()) newErrors.address = "Address required.";
+    if (!form.password.trim())
+      newErrors.password = "Password required.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // ---------- Handlers ----------
   const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setForm((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setErrors({});
     setServerError("");
   };
 
@@ -90,142 +42,60 @@ export default function Register() {
 
     try {
       setLoading(true);
-      setServerError("");
-
       await api.post("/auth/register", form);
-
-      alert("Registration successful! Please log in.");
       navigate("/login");
     } catch (err) {
-      console.error("Register error:", err);
-      setServerError(
-        err.response?.data?.message || "Registration failed. Try again."
-      );
+      setServerError("Registration failed.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
-      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center mb-2 text-blue-700">
-          Create Account
-        </h1>
-        <p className="text-center text-gray-500 mb-6 text-sm">
-          Fill in your details to register as a user.
-        </p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary via-secondary to-surface px-4">
+      <div className="w-full max-w-md bg-glass glass rounded-2xl shadow-glow p-10 card animate-fadeIn">
+
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-black text-dark">
+            Create <span className="text-primary">Account</span>
+          </h1>
+          <p className="text-sm text-secondary mt-2">
+            Join the premium store ecosystem
+          </p>
+        </div>
 
         {serverError && (
-          <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 px-3 py-2 rounded">
+          <div className="mb-4 text-sm text-danger bg-rose-50 border border-rose-200 px-4 py-3 rounded-xl text-center">
             {serverError}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* NAME */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Full Name (20–60 characters)
-            </label>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {["name", "email", "address", "password"].map((field) => (
             <input
-              type="text"
-              name="name"
-              value={form.name}
+              key={field}
+              name={field}
+              type={field === "password" ? "password" : "text"}
+              placeholder={field.toUpperCase()}
+              value={form[field]}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 ${
-                errors.name
-                  ? "border-red-400 focus:ring-red-300"
-                  : "border-gray-300 focus:ring-blue-300"
-              }`}
-              placeholder="Enter your full name"
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
             />
-            {errors.name && (
-              <p className="mt-1 text-xs text-red-600">{errors.name}</p>
-            )}
-          </div>
+          ))}
 
-          {/* EMAIL */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 ${
-                errors.email
-                  ? "border-red-400 focus:ring-red-300"
-                  : "border-gray-300 focus:ring-blue-300"
-              }`}
-              placeholder="you@example.com"
-            />
-            {errors.email && (
-              <p className="mt-1 text-xs text-red-600">{errors.email}</p>
-            )}
-          </div>
-
-          {/* ADDRESS */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Address (max 400 characters)
-            </label>
-            <textarea
-              name="address"
-              value={form.address}
-              onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 ${
-                errors.address
-                  ? "border-red-400 focus:ring-red-300"
-                  : "border-gray-300 focus:ring-blue-300"
-              }`}
-              rows={3}
-              placeholder="Enter your full address"
-            />
-            {errors.address && (
-              <p className="mt-1 text-xs text-red-600">{errors.address}</p>
-            )}
-          </div>
-
-          {/* PASSWORD */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Password (8–16 chars, upper, lower, number, special)
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 ${
-                errors.password
-                  ? "border-red-400 focus:ring-red-300"
-                  : "border-gray-300 focus:ring-blue-300"
-              }`}
-              placeholder="Create a strong password"
-            />
-            {errors.password && (
-              <p className="mt-1 text-xs text-red-600">{errors.password}</p>
-            )}
-          </div>
-
-          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-md text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full bg-primary glow-btn text-white py-3 rounded-xl font-bold hover:scale-105 transition-all"
           >
-            {loading ? "Creating account..." : "Register"}
+            {loading ? "Creating..." : "Register"}
           </button>
         </form>
 
-        {/* LOGIN LINK */}
-        <p className="mt-4 text-center text-sm text-gray-600">
+        <p className="mt-6 text-center text-sm text-secondary">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Login here
+          <Link to="/login" className="text-primary font-bold">
+            Sign in
           </Link>
         </p>
       </div>

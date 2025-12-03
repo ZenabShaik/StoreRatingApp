@@ -1,3 +1,4 @@
+// ========================= RatingForm.jsx (WORLD-CLASS EDITION) =========================
 import React, { useEffect, useState } from "react";
 import axios from "../utils/axiosConfig";
 import { useAuth } from "../context/AuthContext";
@@ -67,58 +68,77 @@ export default function RatingForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 flex justify-center">
-      <div className="bg-white shadow-lg p-6 rounded-lg w-full max-w-xl">
-        <h1 className="text-2xl font-bold text-blue-700 mb-4">
-          Submit / Update Rating
-        </h1>
+    <div className="min-h-screen bg-surface flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-xl bg-glass glass rounded-2xl shadow-glow p-10 card animate-fadeIn">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <p className="text-xs uppercase tracking-widest text-secondary font-semibold mb-1">
+            Feedback
+          </p>
+          <h1 className="text-3xl font-black text-dark">
+            Submit / Update Rating
+          </h1>
+        </div>
 
-        {/* STORE DROPDOWN */}
-        <select
-          value={selectedStore}
-          onChange={(e) => setSelectedStore(e.target.value)}
-          className="w-full p-3 mb-4 border rounded-lg"
-        >
-          <option value="">-- Choose a store --</option>
-          {stores.map((store) => (
-            <option key={store.id} value={store.id}>
-              {store.name}
-            </option>
-          ))}
-        </select>
+        {/* Store Selector */}
+        <div className="mb-5">
+          <label className="block text-sm font-semibold text-dark mb-2">
+            Select Store
+          </label>
+          <select
+            value={selectedStore}
+            onChange={(e) => setSelectedStore(e.target.value)}
+            className="w-full px-4 py-3 border border-slate-300 rounded-xl bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="">-- Choose a store --</option>
+            {stores.map((store) => (
+              <option key={store.id} value={store.id}>
+                {store.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        {/* RATING DROPDOWN */}
-        <select
-          value={rating}
-          onChange={(e) => setRating(e.target.value)}
-          className="w-full p-3 mb-4 border rounded-lg"
-        >
-          <option value="">-- Select rating (1–5) --</option>
-          {[1, 2, 3, 4, 5].map((num) => (
-            <option key={num} value={num}>
-              {num} Star{num > 1 ? "s" : ""}
-            </option>
-          ))}
-        </select>
+        {/* Rating Selector */}
+        <div className="mb-6">
+          <label className="block text-sm font-semibold text-dark mb-2">
+            Rating (1–5)
+          </label>
+          <select
+            value={rating}
+            onChange={(e) => setRating(e.target.value)}
+            className="w-full px-4 py-3 border border-slate-300 rounded-xl bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="">-- Select rating (1–5) --</option>
+            {[1, 2, 3, 4, 5].map((num) => (
+              <option key={num} value={num}>
+                {num} Star{num > 1 ? "s" : ""}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <div className="flex gap-4">
+        {/* Actions */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <button
             onClick={handleSubmitRating}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-primary glow-btn text-white py-3 rounded-xl font-bold hover:scale-105 transition-all"
           >
             Submit Rating
           </button>
-
           <button
             onClick={handleUpdateRating}
-            className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+            className="bg-accent text-white py-3 rounded-xl font-bold hover:scale-105 transition-all"
           >
             Update Rating
           </button>
         </div>
 
+        {/* Status */}
         {message && (
-          <p className="mt-4 text-center text-green-700 font-medium">{message}</p>
+          <div className="mt-2 text-center text-sm font-semibold px-4 py-3 rounded-xl border bg-surface">
+            {message}
+          </div>
         )}
       </div>
     </div>

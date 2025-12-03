@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ================= GLOBAL BRAND THEME ================= */
+
+body {
+  background: radial-gradient(circle at top left, #eef2ff, #f8fafc);
+  color: #020617;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont;
+}
+
+/* ================= GLASSMORPHIC SURFACE ================= */
+
+.glass {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+/* ================= PREMIUM CARD MOTION ================= */
+
+.card {
+  transition: all 0.35s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 30px 60px rgba(79, 70, 229, 0.18);
+}
+
+/* ================= GLOW BUTTON SYSTEM ================= */
+
+.glow-btn {
+  box-shadow: 0 0 25px rgba(79, 70, 229, 0.45);
+}
+
+.glow-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ================= FADE IN ================= */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}

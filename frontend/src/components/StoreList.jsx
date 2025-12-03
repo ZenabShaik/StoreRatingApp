@@ -1,3 +1,4 @@
+// ========================= StoreList.jsx (WORLD-CLASS SHOWCASE EDITION) =========================
 import React, { useEffect, useState } from "react";
 import axios from "../utils/axiosConfig";
 import { useAuth } from "../context/AuthContext";
@@ -11,23 +12,21 @@ export default function StoreList() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Fetch stores when page loads
   useEffect(() => {
     fetchStores();
   }, []);
 
   const fetchStores = async () => {
     try {
-      const response = await axios.get("/stores/user-list");  // FIXED
+      const response = await axios.get("/stores/user-list");
       setStores(response.data);
     } catch (err) {
       console.error("Error fetching stores:", err);
     } finally {
-      setLoading(false); // IMPORTANT
+      setLoading(false);
     }
   };
 
-  // Search filter
   const filteredStores = stores.filter((store) => {
     return (
       store.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -36,57 +35,89 @@ export default function StoreList() {
   });
 
   if (loading) {
-    return <div className="text-center p-8 text-xl">Loading stores...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-surface">
+        <p className="text-lg font-semibold text-secondary">
+          Loading premium stores...
+        </p>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-4 text-blue-600">Store List</h1>
+    <div className="min-h-screen bg-surface px-6 py-12">
+      <div className="max-w-7xl mx-auto space-y-12">
+
+        {/* HERO HEADER */}
+        <div className="text-center">
+          <p className="text-sm uppercase tracking-widest text-secondary font-semibold">
+            Discover Experiences
+          </p>
+          <h1 className="text-4xl md:text-5xl font-black text-dark mt-2">
+            Explore Elite Stores
+          </h1>
+        </div>
 
         {/* SEARCH BAR */}
-        <input
-          type="text"
-          placeholder="Search by name or address..."
-          className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div className="max-w-2xl mx-auto">
+          <input
+            type="text"
+            placeholder="Search by store name or location..."
+            className="w-full px-6 py-4 rounded-2xl border border-slate-200 bg-glass glass shadow-soft focus:outline-none focus:ring-2 focus:ring-primary transition"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
 
-        {/* STORE LIST */}
+        {/* STORE GRID */}
         {filteredStores.length === 0 ? (
-          <p className="text-gray-500 text-center">No stores found.</p>
+          <div className="bg-glass glass rounded-2xl shadow-soft p-12 text-center text-secondary card">
+            No stores matched your search.
+          </div>
         ) : (
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {filteredStores.map((store) => (
               <div
                 key={store.id}
-                className="p-4 bg-gray-50 border rounded-lg shadow-sm hover:shadow-md transition"
+                className="bg-glass glass rounded-2xl shadow-soft p-8 flex flex-col justify-between card"
               >
-                <h2 className="text-xl font-semibold">{store.name}</h2>
-                <p className="text-gray-600">{store.address}</p>
+                {/* TOP */}
+                <div>
+                  <div className="flex items-start justify-between mb-3">
+                    <h2 className="text-xl font-bold text-dark leading-tight">
+                      {store.name}
+                    </h2>
 
-                <div className="flex justify-between mt-3">
-                  <span className="text-yellow-600 font-bold">
-                    ⭐ {store.average_rating}
-                  </span>
+                    <span className="inline-flex items-center gap-1 bg-accent/10 text-accent font-black px-3 py-1 rounded-full text-xs">
+                      ⭐ {store.average_rating}
+                    </span>
+                  </div>
 
+                  <p className="text-sm text-secondary leading-relaxed line-clamp-3">
+                    {store.address}
+                  </p>
+
+                  {store.user_rating && (
+                    <div className="mt-4 text-sm text-dark font-semibold">
+                      Your Rating:{" "}
+                      <span className="text-accent font-black">
+                        ⭐ {store.user_rating}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* ACTION */}
+                <div className="mt-8">
                   <button
-                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
+                    className="w-full bg-primary glow-btn text-white py-3 rounded-xl font-bold tracking-wide hover:scale-105 transition-all"
                     onClick={() =>
                       navigate("/rate", { state: { storeId: store.id } })
                     }
                   >
-                    {store.user_rating ? "Modify Rating" : "Rate Store"}
+                    {store.user_rating ? "Modify Rating" : "Rate This Store"}
                   </button>
                 </div>
-
-                {/* YOUR RATING DISPLAY */}
-                {store.user_rating && (
-                  <p className="mt-2 text-sm text-gray-700">
-                    Your Rating: ⭐ {store.user_rating}
-                  </p>
-                )}
               </div>
             ))}
           </div>
