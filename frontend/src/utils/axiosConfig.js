@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://storeratingapp-s4yi.onrender.com/api",
+  baseURL: process.env.REACT_APP_API_BASE_URL,
 });
 
 // Attach JWT automatically
@@ -12,8 +12,5 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
-
-//https://storeratingapp-s4yi.onrender.com/api
-//http://localhost:5000/api
 
 export default api;

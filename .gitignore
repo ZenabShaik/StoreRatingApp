@@ -4,3 +4,4 @@ test-users.txt
 dev-credentials.md
 *.credentials
 node_modules
+.env
