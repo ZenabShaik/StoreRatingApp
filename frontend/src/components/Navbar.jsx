@@ -1,4 +1,4 @@
-// ========================= Navbar.jsx (MOBILE-RESPONSIVE FIXED EDITION) =========================
+// ========================= Navbar.jsx (PREMIUM MOBILE + DESKTOP) =========================
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
@@ -9,35 +9,39 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-glass glass border-b border-slate-200 shadow-soft">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <nav className="sticky top-0 z-50 bg-glass glass border-b border-slate-200 shadow-soft backdrop-blur-xl">
+      <div className="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
 
-        {/* BRAND */}
-        <Link to="/" className="text-2xl font-black text-primary">
-          StoreRating
+        {/* ✅ BRAND */}
+        <Link to="/" className="text-2xl font-black tracking-tight text-primary">
+          Store<span className="text-dark">Rating</span>
         </Link>
 
-        {/* DESKTOP MENU */}
+        {/* ✅ DESKTOP NAV */}
         {user && (
-          <div className="hidden md:flex gap-8 font-semibold text-dark">
+          <div className="hidden md:flex gap-10 font-semibold text-dark">
             {user.role === "admin" && (
               <>
-                <Link to="/dashboard">Dashboard</Link>
-                <Link to="/admin/users">Users</Link>
-                <Link to="/admin/stores">Stores</Link>
+                <Link to="/dashboard" className="hover:text-primary transition">Dashboard</Link>
+                <Link to="/admin/users" className="hover:text-primary transition">Users</Link>
+                <Link to="/admin/stores" className="hover:text-primary transition">Stores</Link>
               </>
             )}
-            {user.role === "owner" && <Link to="/my-store">My Store</Link>}
-            {user.role === "user" && <Link to="/stores">Stores</Link>}
+            {user.role === "owner" && (
+              <Link to="/my-store" className="hover:text-primary transition">My Store</Link>
+            )}
+            {user.role === "user" && (
+              <Link to="/stores" className="hover:text-primary transition">Stores</Link>
+            )}
           </div>
         )}
 
-        {/* RIGHT SIDE */}
-        <div className="flex items-center gap-4">
+        {/* ✅ RIGHT CONTROLS */}
+        <div className="flex items-center gap-3">
 
           {/* Role Badge */}
           {user && (
-            <span className="bg-primary text-white px-4 py-1 rounded-full text-xs font-black hidden md:inline">
+            <span className="hidden md:inline bg-primary text-white px-4 py-1 rounded-full text-xs font-black tracking-wide">
               {user.role.toUpperCase()}
             </span>
           )}
@@ -46,7 +50,7 @@ export default function Navbar() {
           {user && (user.role === "user" || user.role === "owner") && (
             <button
               onClick={() => navigate("/change-password")}
-              className="bg-surface px-4 py-2 rounded-lg font-semibold hidden md:block"
+              className="hidden md:block bg-surface px-4 py-2 rounded-lg font-semibold hover:scale-105 transition"
             >
               Change Password
             </button>
@@ -59,17 +63,17 @@ export default function Navbar() {
                 logout();
                 navigate("/login");
               }}
-              className="bg-danger text-white px-4 py-2 rounded-lg font-bold hidden md:block"
+              className="hidden md:block bg-danger text-white px-4 py-2 rounded-lg font-bold hover:scale-105 transition"
             >
               Logout
             </button>
           )}
 
-          {/* ✅ MOBILE HAMBURGER */}
+          {/* ✅ HAMBURGER (MOBILE) */}
           {user && (
             <button
-              onClick={() => setOpen(!open)}
-              className="md:hidden text-3xl font-bold"
+              onClick={() => setOpen(true)}
+              className="md:hidden text-3xl font-black text-primary"
             >
               ☰
             </button>
@@ -77,42 +81,49 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ✅ ✅ ✅ MOBILE SLIDE MENU */}
+      {/* ✅ ✅ ✅ MOBILE DRAWER */}
       {open && (
-        <div className="md:hidden fixed inset-0 bg-black/40 z-40">
-          <div className="absolute right-0 top-0 h-full w-64 bg-white shadow-xl p-6 flex flex-col gap-6">
+        <div className="md:hidden fixed inset-0 bg-black/40 z-10">
+          <div className="absolute right-0 top-0 h-full w-[75%] bg-glass glass shadow-2xl rounded-l-3xl p-6 flex flex-col gap-6 animate-fadeIn">
 
-            <div className="flex justify-between items-center">
-              <span className="font-black text-primary">
+            {/* HEADER */}
+            <div className="flex justify-between items-center border-b border-slate-200 pb-4">
+              <p className="font-black text-primary tracking-wide">
                 {user?.role?.toUpperCase()}
-              </span>
-              <button onClick={() => setOpen(false)} className="text-xl">✕</button>
+              </p>
+              <button
+                onClick={() => setOpen(false)}
+                className="text-2xl font-bold text-dark"
+              >
+                ✕
+              </button>
             </div>
 
-            {/* ADMIN LINKS */}
-            {user?.role === "admin" && (
-              <>
-                <Link to="/dashboard" onClick={() => setOpen(false)}>Dashboard</Link>
-                <Link to="/admin/users" onClick={() => setOpen(false)}>Users</Link>
-                <Link to="/admin/stores" onClick={() => setOpen(false)}>Stores</Link>
-              </>
-            )}
+            {/* LINKS */}
+            <div className="flex flex-col gap-4 font-semibold text-lg">
 
-            {/* OWNER */}
-            {user?.role === "owner" && (
-              <>
-                <Link to="/my-store" onClick={() => setOpen(false)}>My Store</Link>
-                <Link to="/change-password" onClick={() => setOpen(false)}>Change Password</Link>
-              </>
-            )}
+              {user?.role === "admin" && (
+                <>
+                  <Link to="/dashboard" onClick={() => setOpen(false)}>Dashboard</Link>
+                  <Link to="/admin/users" onClick={() => setOpen(false)}>Users</Link>
+                  <Link to="/admin/stores" onClick={() => setOpen(false)}>Stores</Link>
+                </>
+              )}
 
-            {/* USER */}
-            {user?.role === "user" && (
-              <>
-                <Link to="/stores" onClick={() => setOpen(false)}>Stores</Link>
-                <Link to="/change-password" onClick={() => setOpen(false)}>Change Password</Link>
-              </>
-            )}
+              {user?.role === "owner" && (
+                <>
+                  <Link to="/my-store" onClick={() => setOpen(false)}>My Store</Link>
+                  <Link to="/change-password" onClick={() => setOpen(false)}>Change Password</Link>
+                </>
+              )}
+
+              {user?.role === "user" && (
+                <>
+                  <Link to="/stores" onClick={() => setOpen(false)}>Stores</Link>
+                  <Link to="/change-password" onClick={() => setOpen(false)}>Change Password</Link>
+                </>
+              )}
+            </div>
 
             {/* LOGOUT */}
             <button
@@ -120,7 +131,7 @@ export default function Navbar() {
                 logout();
                 navigate("/login");
               }}
-              className="bg-danger text-white py-2 rounded-lg font-bold"
+              className="mt-auto bg-danger text-white py-3 rounded-xl font-black hover:scale-105 transition"
             >
               Logout
             </button>
