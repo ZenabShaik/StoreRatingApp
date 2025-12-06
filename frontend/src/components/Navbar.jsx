@@ -1,4 +1,4 @@
-// ========================= Navbar.jsx (PREMIUM MOBILE + DESKTOP) =========================
+// ========================= Navbar.jsx (OUTSTANDING MOBILE UI FIXED) =========================
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
@@ -38,15 +38,12 @@ export default function Navbar() {
 
         {/* ✅ RIGHT CONTROLS */}
         <div className="flex items-center gap-3">
-
-          {/* Role Badge */}
           {user && (
             <span className="hidden md:inline bg-primary text-white px-4 py-1 rounded-full text-xs font-black tracking-wide">
               {user.role.toUpperCase()}
             </span>
           )}
 
-          {/* Change Password */}
           {user && (user.role === "user" || user.role === "owner") && (
             <button
               onClick={() => navigate("/change-password")}
@@ -56,7 +53,6 @@ export default function Navbar() {
             </button>
           )}
 
-          {/* Desktop Logout */}
           {user && (
             <button
               onClick={() => {
@@ -69,7 +65,7 @@ export default function Navbar() {
             </button>
           )}
 
-          {/* ✅ HAMBURGER (MOBILE) */}
+          {/* ✅ HAMBURGER */}
           {user && (
             <button
               onClick={() => setOpen(true)}
@@ -81,46 +77,46 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ✅ ✅ ✅ MOBILE DRAWER */}
+      {/* ✅ ✅ ✅ PREMIUM HIGH-CONTRAST MOBILE DRAWER */}
       {open && (
-        <div className="md:hidden fixed inset-0 bg-black/40 z-10">
-          <div className="absolute right-0 top-0 h-full w-[75%] bg-glass glass shadow-2xl rounded-l-3xl p-6 flex flex-col gap-6 animate-fadeIn">
+        <div className="md:hidden fixed inset-0 bg-black/60 z-50 flex justify-end">
+          <div className="w-[80%] h-full bg-gradient-to-b from-indigo-600 to-indigo-800 text-white shadow-2xl p-6 flex flex-col animate-fadeIn">
 
             {/* HEADER */}
-            <div className="flex justify-between items-center border-b border-slate-200 pb-4">
-              <p className="font-black text-primary tracking-wide">
-                {user?.role?.toUpperCase()}
+            <div className="flex justify-between items-center border-b border-white/20 pb-4 mb-6">
+              <p className="font-black tracking-widest text-sm">
+                {user?.role?.toUpperCase()} PANEL
               </p>
               <button
                 onClick={() => setOpen(false)}
-                className="text-2xl font-bold text-dark"
+                className="text-2xl font-bold"
               >
                 ✕
               </button>
             </div>
 
             {/* LINKS */}
-            <div className="flex flex-col gap-4 font-semibold text-lg">
+            <div className="flex flex-col gap-5 text-lg font-semibold">
 
               {user?.role === "admin" && (
                 <>
-                  <Link to="/dashboard" onClick={() => setOpen(false)}>Dashboard</Link>
-                  <Link to="/admin/users" onClick={() => setOpen(false)}>Users</Link>
-                  <Link to="/admin/stores" onClick={() => setOpen(false)}>Stores</Link>
+                  <Link to="/dashboard" onClick={() => setOpen(false)} className="hover:underline">📊 Dashboard</Link>
+                  <Link to="/admin/users" onClick={() => setOpen(false)} className="hover:underline">👤 Users</Link>
+                  <Link to="/admin/stores" onClick={() => setOpen(false)} className="hover:underline">🏬 Stores</Link>
                 </>
               )}
 
               {user?.role === "owner" && (
                 <>
-                  <Link to="/my-store" onClick={() => setOpen(false)}>My Store</Link>
-                  <Link to="/change-password" onClick={() => setOpen(false)}>Change Password</Link>
+                  <Link to="/my-store" onClick={() => setOpen(false)} className="hover:underline">🏪 My Store</Link>
+                  <Link to="/change-password" onClick={() => setOpen(false)} className="hover:underline">🔐 Change Password</Link>
                 </>
               )}
 
               {user?.role === "user" && (
                 <>
-                  <Link to="/stores" onClick={() => setOpen(false)}>Stores</Link>
-                  <Link to="/change-password" onClick={() => setOpen(false)}>Change Password</Link>
+                  <Link to="/stores" onClick={() => setOpen(false)} className="hover:underline">⭐ Stores</Link>
+                  <Link to="/change-password" onClick={() => setOpen(false)} className="hover:underline">🔐 Change Password</Link>
                 </>
               )}
             </div>
@@ -131,10 +127,11 @@ export default function Navbar() {
                 logout();
                 navigate("/login");
               }}
-              className="mt-auto bg-danger text-white py-3 rounded-xl font-black hover:scale-105 transition"
+              className="mt-auto bg-red-500 hover:bg-red-600 py-3 rounded-xl font-black transition"
             >
               Logout
             </button>
+
           </div>
         </div>
       )}
