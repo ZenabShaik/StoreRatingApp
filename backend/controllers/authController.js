@@ -15,10 +15,10 @@ exports.register = (req, res) => {
   }
 
   // Name validation
-  if (name.length < 20 || name.length > 60) {
-    return res.status(400).json({
-      message: "Name must be between 20 and 60 characters"
-    });
+  if (name.length < 3 || name.length > 20) {
+  return res.status(400).json({
+    message: "Name must be between 3 and 20 characters"
+  });
   }
 
   db.get("SELECT * FROM users WHERE email=?", [email], async (err, row) => {

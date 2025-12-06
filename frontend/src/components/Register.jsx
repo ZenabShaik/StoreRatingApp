@@ -1,4 +1,4 @@
-// ========================= Register.jsx (WORLD-CLASS EDITION) =========================
+// ========================= Register.jsx (UPDATED & SAFE) =========================
 import React, { useState } from "react";
 import api from "../utils/axiosConfig";
 import { useNavigate, Link } from "react-router-dom";
@@ -17,22 +17,43 @@ export default function Register() {
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // ✅ UPDATED VALIDATION (3–60 for name + visible errors)
   const validate = () => {
-    const newErrors = {};
-    if (!form.name.trim() || form.name.length < 20 || form.name.length > 60)
-      newErrors.name = "Name must be 20–60 characters.";
-    if (!form.email.trim()) newErrors.email = "Valid email required.";
-    if (!form.address.trim()) newErrors.address = "Address required.";
-    if (!form.password.trim())
-      newErrors.password = "Password required.";
+  const newErrors = {};
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  // ✅ NAME: 3–20 characters
+  if (!form.name.trim() || form.name.length < 3 || form.name.length > 20) {
+    newErrors.name = "Name must be between 3 and 20 characters.";
+  }
 
+  // ✅ EMAIL
+  if (!form.email.trim()) {
+    newErrors.email = "Valid email required.";
+  } else {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) {
+      newErrors.email = "Enter a valid email address.";
+    }
+  }
+
+  // ✅ ADDRESS
+  if (!form.address.trim()) {
+    newErrors.address = "Address required.";
+  }
+
+  // ✅ PASSWORD
+  if (!form.password.trim()) {
+    newErrors.password = "Password required.";
+  }
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setErrors({});
+    const { name, value } = e.target;
+
+    setForm((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
     setServerError("");
   };
 
@@ -45,7 +66,9 @@ export default function Register() {
       await api.post("/auth/register", form);
       navigate("/login");
     } catch (err) {
-      setServerError("Registration failed.");
+      setServerError(
+        err?.response?.data?.message || "Registration failed. Try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -71,22 +94,71 @@ export default function Register() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {["name", "email", "address", "password"].map((field) => (
+
+          {/* Name */}
+          <div>
             <input
-              key={field}
-              name={field}
-              type={field === "password" ? "password" : "text"}
-              placeholder={field.toUpperCase()}
-              value={form[field]}
+              name="name"
+              type="text"
+              placeholder="NAME"
+              value={form.name}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
             />
-          ))}
+            {errors.name && (
+              <p className="text-xs text-red-500 mt-1">{errors.name}</p>
+            )}
+          </div>
+
+          {/* Email */}
+          <div>
+            <input
+              name="email"
+              type="email"
+              placeholder="EMAIL"
+              value={form.email}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            {errors.email && (
+              <p className="text-xs text-red-500 mt-1">{errors.email}</p>
+            )}
+          </div>
+
+          {/* Address */}
+          <div>
+            <input
+              name="address"
+              type="text"
+              placeholder="ADDRESS"
+              value={form.address}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            {errors.address && (
+              <p className="text-xs text-red-500 mt-1">{errors.address}</p>
+            )}
+          </div>
+
+          {/* Password */}
+          <div>
+            <input
+              name="password"
+              type="password"
+              placeholder="PASSWORD"
+              value={form.password}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            {errors.password && (
+              <p className="text-xs text-red-500 mt-1">{errors.password}</p>
+            )}
+          </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary glow-btn text-white py-3 rounded-xl font-bold hover:scale-105 transition-all"
+            className="w-full bg-primary glow-btn text-white py-3 rounded-xl font-bold hover:scale-105 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {loading ? "Creating..." : "Register"}
           </button>
