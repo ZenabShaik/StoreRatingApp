@@ -1,4 +1,4 @@
-// ========================= Navbar.jsx (OUTSTANDING MOBILE UI FIXED) =========================
+// ========================= Navbar.jsx (FINAL VISIBILITY FIX) =========================
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
@@ -22,17 +22,13 @@ export default function Navbar() {
           <div className="hidden md:flex gap-10 font-semibold text-dark">
             {user.role === "admin" && (
               <>
-                <Link to="/dashboard" className="hover:text-primary transition">Dashboard</Link>
-                <Link to="/admin/users" className="hover:text-primary transition">Users</Link>
-                <Link to="/admin/stores" className="hover:text-primary transition">Stores</Link>
+                <Link to="/dashboard">Dashboard</Link>
+                <Link to="/admin/users">Users</Link>
+                <Link to="/admin/stores">Stores</Link>
               </>
             )}
-            {user.role === "owner" && (
-              <Link to="/my-store" className="hover:text-primary transition">My Store</Link>
-            )}
-            {user.role === "user" && (
-              <Link to="/stores" className="hover:text-primary transition">Stores</Link>
-            )}
+            {user.role === "owner" && <Link to="/my-store">My Store</Link>}
+            {user.role === "user" && <Link to="/stores">Stores</Link>}
           </div>
         )}
 
@@ -47,7 +43,7 @@ export default function Navbar() {
           {user && (user.role === "user" || user.role === "owner") && (
             <button
               onClick={() => navigate("/change-password")}
-              className="hidden md:block bg-surface px-4 py-2 rounded-lg font-semibold hover:scale-105 transition"
+              className="hidden md:block bg-surface px-4 py-2 rounded-lg font-semibold"
             >
               Change Password
             </button>
@@ -59,7 +55,7 @@ export default function Navbar() {
                 logout();
                 navigate("/login");
               }}
-              className="hidden md:block bg-danger text-white px-4 py-2 rounded-lg font-bold hover:scale-105 transition"
+              className="hidden md:block bg-danger text-white px-4 py-2 rounded-lg font-bold"
             >
               Logout
             </button>
@@ -77,57 +73,103 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ✅ ✅ ✅ PREMIUM HIGH-CONTRAST MOBILE DRAWER */}
+      {/* ✅ ✅ ✅ SOLID BACKGROUND MOBILE DRAWER */}
       {open && (
-        <div className="md:hidden fixed inset-0 bg-black/60 z-50 flex justify-end">
-          <div className="w-[80%] h-full bg-gradient-to-b from-indigo-600 to-indigo-800 text-white shadow-2xl p-6 flex flex-col animate-fadeIn">
+        <div className="md:hidden fixed inset-0 bg-black/70 z-50 flex justify-end">
+          <div className="w-[85%] h-full bg-white shadow-2xl p-6 flex flex-col animate-fadeIn">
 
             {/* HEADER */}
-            <div className="flex justify-between items-center border-b border-white/20 pb-4 mb-6">
-              <p className="font-black tracking-widest text-sm">
+            <div className="flex justify-between items-center border-b pb-4 mb-6">
+              <p className="font-black tracking-widest text-primary text-sm">
                 {user?.role?.toUpperCase()} PANEL
               </p>
               <button
                 onClick={() => setOpen(false)}
-                className="text-2xl font-bold"
+                className="text-2xl font-bold text-dark"
               >
                 ✕
               </button>
             </div>
 
-            {/* LINKS */}
-            <div className="flex flex-col gap-5 text-lg font-semibold">
+            {/* ✅ MENU TABS WITH SOLID BACKGROUND */}
+            <div className="flex flex-col gap-4 font-semibold">
 
               {user?.role === "admin" && (
                 <>
-                  <Link to="/dashboard" onClick={() => setOpen(false)} className="hover:underline">📊 Dashboard</Link>
-                  <Link to="/admin/users" onClick={() => setOpen(false)} className="hover:underline">👤 Users</Link>
-                  <Link to="/admin/stores" onClick={() => setOpen(false)} className="hover:underline">🏬 Stores</Link>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setOpen(false)}
+                    className="bg-primary text-white px-5 py-3 rounded-xl shadow"
+                  >
+                    📊 Dashboard
+                  </Link>
+
+                  <Link
+                    to="/admin/users"
+                    onClick={() => setOpen(false)}
+                    className="bg-slate-100 text-dark px-5 py-3 rounded-xl shadow"
+                  >
+                    👤 Users
+                  </Link>
+
+                  <Link
+                    to="/admin/stores"
+                    onClick={() => setOpen(false)}
+                    className="bg-slate-100 text-dark px-5 py-3 rounded-xl shadow"
+                  >
+                    🏬 Stores
+                  </Link>
                 </>
               )}
 
               {user?.role === "owner" && (
                 <>
-                  <Link to="/my-store" onClick={() => setOpen(false)} className="hover:underline">🏪 My Store</Link>
-                  <Link to="/change-password" onClick={() => setOpen(false)} className="hover:underline">🔐 Change Password</Link>
+                  <Link
+                    to="/my-store"
+                    onClick={() => setOpen(false)}
+                    className="bg-primary text-white px-5 py-3 rounded-xl shadow"
+                  >
+                    🏪 My Store
+                  </Link>
+
+                  <Link
+                    to="/change-password"
+                    onClick={() => setOpen(false)}
+                    className="bg-slate-100 text-dark px-5 py-3 rounded-xl shadow"
+                  >
+                    🔐 Change Password
+                  </Link>
                 </>
               )}
 
               {user?.role === "user" && (
                 <>
-                  <Link to="/stores" onClick={() => setOpen(false)} className="hover:underline">⭐ Stores</Link>
-                  <Link to="/change-password" onClick={() => setOpen(false)} className="hover:underline">🔐 Change Password</Link>
+                  <Link
+                    to="/stores"
+                    onClick={() => setOpen(false)}
+                    className="bg-primary text-white px-5 py-3 rounded-xl shadow"
+                  >
+                    ⭐ Stores
+                  </Link>
+
+                  <Link
+                    to="/change-password"
+                    onClick={() => setOpen(false)}
+                    className="bg-slate-100 text-dark px-5 py-3 rounded-xl shadow"
+                  >
+                    🔐 Change Password
+                  </Link>
                 </>
               )}
             </div>
 
-            {/* LOGOUT */}
+            {/* ✅ LOGOUT FIXED AT BOTTOM */}
             <button
               onClick={() => {
                 logout();
                 navigate("/login");
               }}
-              className="mt-auto bg-red-500 hover:bg-red-600 py-3 rounded-xl font-black transition"
+              className="mt-auto bg-danger text-white py-3 rounded-xl font-black shadow-lg"
             >
               Logout
             </button>
