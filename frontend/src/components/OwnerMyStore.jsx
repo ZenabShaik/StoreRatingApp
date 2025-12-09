@@ -15,12 +15,12 @@ export default function OwnerMyStore() {
   }, []);
 
   const fetchRatings = async () => {
-    const response = await axios.get("/owner/my-store");
+    const response = await axios.get("/api/owner/my-store");
     setRatings(response.data);
   };
 
   const fetchAverage = async () => {
-    const response = await axios.get("/owner/my-store/average");
+    const response = await axios.get("/api/owner/my-store/average");
     setAverage(response.data.average_rating);
     setLoading(false);
   };

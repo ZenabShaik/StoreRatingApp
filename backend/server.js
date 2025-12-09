@@ -10,12 +10,13 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",              // local React dev
   "https://storerating.shaikzenab.me",  // your custom Vercel domain
-  
+  // optional: also add your Vercel default domain if you use it
+  // "https://your-project-name.vercel.app",
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    
+    // allow requests with no origin (like Postman) or allowed origins
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -24,12 +25,11 @@ const corsOptions = {
   },
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: false, 
+  credentials: false, // set true only if using cookies/auth headers that need it
 };
 
-
+// ✅ Apply CORS globally BEFORE routes
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // preflight handle
 
 // =================================================
 

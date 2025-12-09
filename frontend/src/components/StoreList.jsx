@@ -18,7 +18,7 @@ export default function StoreList() {
 
   const fetchStores = async () => {
     try {
-      const response = await axios.get("/stores/user-list");
+      const response = await axios.get("/api/stores/user-list");
       setStores(response.data);
     } catch (err) {
       console.error("Error fetching stores:", err);

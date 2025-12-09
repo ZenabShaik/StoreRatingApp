@@ -12,7 +12,7 @@ export default function AdminUserDetail() {
   useEffect(() => {
     const loadDetails = async () => {
       try {
-        const res = await axios.get(`/admin/users/${id}`);
+        const res = await axios.get(`/api/admin/users/${id}`);
         setData(res.data);
       } catch (err) {
         console.error("User detail fetch error:", err);

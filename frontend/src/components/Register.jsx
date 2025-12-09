@@ -19,36 +19,37 @@ export default function Register() {
 
   // ✅ UPDATED VALIDATION (3–60 for name + visible errors)
   const validate = () => {
-  const newErrors = {};
+    const newErrors = {};
 
-  // ✅ NAME: 3–20 characters
-  if (!form.name.trim() || form.name.length < 3 || form.name.length > 20) {
-    newErrors.name = "Name must be between 3 and 20 characters.";
-  }
-
-  // ✅ EMAIL
-  if (!form.email.trim()) {
-    newErrors.email = "Valid email required.";
-  } else {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(form.email)) {
-      newErrors.email = "Enter a valid email address.";
+    // ✅ NAME: 3–20 characters
+    if (!form.name.trim() || form.name.length < 3 || form.name.length > 20) {
+      newErrors.name = "Name must be between 3 and 20 characters.";
     }
-  }
 
-  // ✅ ADDRESS
-  if (!form.address.trim()) {
-    newErrors.address = "Address required.";
-  }
+    // ✅ EMAIL
+    if (!form.email.trim()) {
+      newErrors.email = "Valid email required.";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(form.email)) {
+        newErrors.email = "Enter a valid email address.";
+      }
+    }
 
-  // ✅ PASSWORD
-  if (!form.password.trim()) {
-    newErrors.password = "Password required.";
-  }
+    // ✅ ADDRESS
+    if (!form.address.trim()) {
+      newErrors.address = "Address required.";
+    }
 
-  setErrors(newErrors);
-  return Object.keys(newErrors).length === 0;
-};
+    // ✅ PASSWORD
+    if (!form.password.trim()) {
+      newErrors.password = "Password required.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -63,7 +64,7 @@ export default function Register() {
 
     try {
       setLoading(true);
-      await api.post("/auth/register", form);
+      await api.post("/api/auth/register", form);
       navigate("/login");
     } catch (err) {
       setServerError(

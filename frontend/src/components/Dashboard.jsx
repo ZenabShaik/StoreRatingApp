@@ -20,13 +20,13 @@ export default function Dashboard() {
   }, [user]);
 
   const loadAdminStats = async () => {
-    const res = await axios.get("/admin/dashboard");
+    const res = await axios.get("/api/admin/dashboard");
     setStats(res.data);
   };
 
   const loadOwnerMetrics = async () => {
-    const avgRes = await axios.get("/owner/my-store/average");
-    const ratingRes = await axios.get("/owner/my-store");
+    const avgRes = await axios.get("/api/owner/my-store/average");
+    const ratingRes = await axios.get("/api/owner/my-store");
 
     setOwnerData({
       avg: avgRes.data.average_rating,

@@ -24,7 +24,7 @@ export default function AdminUsers() {
 
   const loadUsers = async () => {
     try {
-      const res = await axios.get("/admin/users");
+      const res = await axios.get("/api/admin/users");
       setUsers(res.data);
     } catch (err) {
       console.error("Error loading users:", err);
@@ -49,7 +49,7 @@ export default function AdminUsers() {
 
   const handleAddUser = async () => {
     try {
-      await axios.post("/admin/add-user", newUser);
+      await axios.post("/api/admin/add-user", newUser);
       setShowModal(false);
       setNewUser({
         name: "",

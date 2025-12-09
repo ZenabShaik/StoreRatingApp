@@ -26,7 +26,7 @@ export default function AdminStores() {
 
   const loadStores = async () => {
     try {
-      const res = await axios.get("/admin/stores");
+      const res = await axios.get("/api/admin/stores");
       setStores(res.data);
     } catch (err) {
       console.error("Error loading stores:", err);
@@ -35,7 +35,7 @@ export default function AdminStores() {
 
   const loadOwners = async () => {
     try {
-      const res = await axios.get("/admin/owners");
+      const res = await axios.get("/api/admin/owners");
       setOwners(res.data);
     } catch (err) {
       console.error("Error loading owners:", err);
@@ -71,7 +71,7 @@ export default function AdminStores() {
     }
 
     try {
-      await axios.post("/admin/add-store", {
+      await axios.post("/api/admin/add-store", {
         name: newStore.name,
         storeEmail: newStore.storeEmail,
         address: newStore.address,

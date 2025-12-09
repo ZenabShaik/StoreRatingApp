@@ -21,7 +21,7 @@ export default function RatingForm() {
 
   const loadStores = async () => {
     try {
-      const response = await axios.get("/stores");
+      const response = await axios.get("/api/stores");
       setStores(response.data);
     } catch (err) {
       console.error("Error loading stores:", err);
@@ -35,7 +35,7 @@ export default function RatingForm() {
     }
 
     try {
-      await axios.post("/ratings", {
+      await axios.post("/api/ratings", {
         store_id: selectedStore,
         rating,
       });
@@ -57,7 +57,7 @@ export default function RatingForm() {
     }
 
     try {
-      await axios.patch(`/ratings/${selectedStore}`, {
+      await axios.patch(`/api/ratings/${selectedStore}`, {
         rating,
       });
 

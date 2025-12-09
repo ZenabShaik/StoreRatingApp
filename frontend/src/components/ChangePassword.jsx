@@ -45,7 +45,7 @@ export default function ChangePassword() {
 
     try {
       setLoading(true);
-      const res = await api.post("/auth/update-password", {
+      const res = await api.post("/api/auth/update-password", {
         currentPassword,
         newPassword,
       });
@@ -151,4 +151,3 @@ export default function ChangePassword() {
     </div>
   );
 }
-
